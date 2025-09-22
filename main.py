@@ -5,7 +5,7 @@ import logging
 from aiogram.filters import CommandStart, Command
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types
-
+from aiogram.enums import ParseMode
 
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
@@ -21,14 +21,11 @@ async def handle_start(message: types.Message):
 
 @dp.message(Command("help"))
 async def handle_help(message: types.Message):
-    text = "I am echo bot.\nSend me any message!"
-    entiry_bold = types.MessageEntity(
-        type="bold",
-        offset=len("I am echo bot.\nSend me "),
-        length=3,
+    text = "I am echo bot\\.\nSend me *any* message\\!"
+    await message.answer(
+        text=text,
+        parse_mode=ParseMode.MARKDOWN_V2,
     )
-    entities = [entiry_bold]
-    await message.answer(text=text, entities=entities)
 
 
 @dp.message()
