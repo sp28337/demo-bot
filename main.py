@@ -5,6 +5,7 @@ import logging
 from aiogram.filters import CommandStart, Command
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types
+from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 
 load_dotenv()
@@ -21,7 +22,20 @@ async def handle_start(message: types.Message):
 
 @dp.message(Command("help"))
 async def handle_help(message: types.Message):
-    text = "I am echo bot\\.\nSend me *any* message\\!"
+    text = markdown.text(
+        markdown.markdown_decoration.quote("I am {echo} bot."),
+        markdown.text(
+            "Send me",
+            markdown.markdown_decoration.bold(
+                markdown.text(
+                    markdown.underline("literally"),
+                    "any",
+                ),
+            ),
+            markdown.markdown_decoration.quote("message!"),
+        ),
+        sep="\n",
+    )
     await message.answer(
         text=text,
         parse_mode=ParseMode.MARKDOWN_V2,
