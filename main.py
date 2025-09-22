@@ -21,13 +21,25 @@ async def handle_start(message: types.Message):
 
 @dp.message(Command("help"))
 async def handle_help(message: types.Message):
-    await message.answer(text="I am echo bot.\nSend me any message!")
+    text = "I am echo bot.\nSend me any message!"
+    entiry_bold = types.MessageEntity(
+        type="bold",
+        offset=len("I am echo bot.\nSend me "),
+        length=3,
+    )
+    entities = [entiry_bold]
+    await message.answer(text=text, entities=entities)
 
 
 @dp.message()
 async def echo_message(message: types.Message):
 
     await message.answer(text="Wait a second...")
+    if message.text:
+        await message.answer(
+            text=message.text,
+            entities=message.entities,
+        )
     try:
         await message.send_copy(chat_id=message.chat.id)
     except TypeError:
