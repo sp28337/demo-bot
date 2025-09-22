@@ -7,11 +7,15 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
+from aiogram.client.bot import DefaultBotProperties
 
 load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
 
-bot = Bot(token=bot_token)
+bot = Bot(
+    token=bot_token,
+    default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2),
+)
 dp = Dispatcher()
 
 
@@ -39,21 +43,23 @@ async def handle_help(message: types.Message):
         ),
         sep="\n",
     )
-    await message.answer(
-        text=text,
-        parse_mode=ParseMode.MARKDOWN_V2,
-    )
+    await message.answer(text=text)
 
 
 @dp.message()
 async def echo_message(message: types.Message):
 
-    await message.answer(text="Wait a second...")
+    await message.answer(
+        text="Wait a second...",
+        parse_mode=None,
+    )
     if message.text:
         await message.answer(
             text=message.text,
             entities=message.entities,
+            parse_mode=None,
         )
+        return
     try:
         await message.send_copy(chat_id=message.chat.id)
     except TypeError:
