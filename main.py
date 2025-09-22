@@ -21,8 +21,9 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def handle_start(message: types.Message):
+    url = "https://png.pngtree.com/png-vector/20250227/ourlarge/pngtree-friendly-ai-robot-waving-with-a-smile-png-image_15607893.png"
     await message.answer(
-        text=f"Hello, {markdown.hbold(message.from_user.full_name)}!",
+        text=f"{markdown.hide_link(url=url)}Hello, {markdown.hbold(message.from_user.full_name)}!",
         parse_mode=ParseMode.HTML,
     )
 
