@@ -66,15 +66,19 @@ async def echo_message(message: types.Message):
         text="Wait a second...",
         parse_mode=None,
     )
-    if message.text:
-        await message.answer(
-            text=message.text,
-            entities=message.entities,
-            parse_mode=None,
-        )
-        return
+    # if message.text:
+    #     await message.answer(
+    #         text=message.text,
+    #         entities=message.entities,
+    #         parse_mode=None,
+    #     )
+    #     return
     try:
-        await message.send_copy(chat_id=message.chat.id)
+        # telegram side
+        await message.copy_to(chat_id=message.chat.id)
+
+        # aiogram side
+        # await message.send_copy(chat_id=message.chat.id)
     except TypeError:
         await message.reply(text="Somthing new =)")
 
