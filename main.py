@@ -1,19 +1,15 @@
-import os
 import asyncio
 import logging
 
 from aiogram.filters import CommandStart, Command
-from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 from aiogram.client.bot import DefaultBotProperties
-
-load_dotenv()
-bot_token = os.getenv("BOT_TOKEN")
+from settings import settings
 
 bot = Bot(
-    token=bot_token,
+    token=settings.bot_token,
     default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2),
 )
 dp = Dispatcher()
