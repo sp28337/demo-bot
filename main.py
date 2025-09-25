@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from aiogram.filters import CommandStart, Command
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types, F
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 from aiogram.client.bot import DefaultBotProperties
@@ -10,14 +10,15 @@ from settings import settings
 
 bot = Bot(
     token=settings.bot_token,
-    default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2),
+    # default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN_V2),
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML),
 )
 dp = Dispatcher()
 
 
 @dp.message(CommandStart())
 async def handle_start(message: types.Message):
-    url = "https://png.pngtree.com/png-vector/20250227/ourlarge/pngtree-friendly-ai-robot-waving-with-a-smile-png-image_15607893.png"
+    url = "https://www.citypng.com/public/uploads/preview/hd-python-logo-symbol-transparent-png-735811696257415dbkifcuokn.png"
     await message.answer(
         text=f"{markdown.hide_link(url=url)}Hello, {markdown.hbold(message.from_user.full_name)}!",
         parse_mode=ParseMode.HTML,
@@ -40,7 +41,7 @@ async def handle_help(message: types.Message):
         ),
         sep="\n",
     )
-    await message.answer(text=text)
+    await message.answer(text=text, parse_mode=ParseMode.MARKDOWN_V2)
 
 
 @dp.message(Command("code"))
@@ -56,7 +57,25 @@ async def handle_command_code(message: types.Message):
         ),
         sep="\n",
     )
-    await message.answer(text=text)
+    await message.answer(text=text, parse_mode=ParseMode.MARKDOWN_V2)
+
+
+#  Without magic-filter:
+#
+# def is_photo(message: types.Message):
+#     return message.photo
+#
+#
+# @dp.message(is_photo)
+#
+#      or
+#
+# @dp.message(lambda message: message.photo)
+
+
+@dp.message(F.photo)
+async def handle_photo(message: types.Message):
+    await message.reply("I can't see, sorry. Could you describe please?")
 
 
 @dp.message()
