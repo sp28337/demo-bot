@@ -73,9 +73,27 @@ async def handle_command_code(message: types.Message):
 # @dp.message(lambda message: message.photo)
 
 
-@dp.message(F.photo)
-async def handle_photo(message: types.Message):
+@dp.message(F.photo, ~F.caption)
+async def handle_photo_wo_caption(message: types.Message):
     await message.reply("I can't see, sorry. Could you describe please?")
+
+
+@dp.message(F.photo, F.caption.contains("please"))
+async def handle_photo_with_please_caption(message: types.Message):
+    await message.reply("Don't beg me.")
+
+
+any_media_filter = F.document | F.photo | F.video
+
+
+@dp.message(any_media_filter, ~F.caption)
+async def handle_any_media_without_caption(message: types.Message):
+    await message.reply("I can't see.")
+
+
+@dp.message(any_media_filter, F.caption)
+async def handle_any_media_with_caption(message: types.Message):
+    await message.reply(f"Something is on media. Your text: {message.caption!r}")
 
 
 @dp.message()
