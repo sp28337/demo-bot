@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from sys import prefix
 
 from aiogram.filters import CommandStart, Command
 from aiogram import Bot, Dispatcher, types, F
@@ -27,7 +28,7 @@ async def handle_start(message: types.Message):
     )
 
 
-@dp.message(Command("help"))
+@dp.message(Command("help", prefix="/!%"))
 async def handle_help(message: types.Message):
     text = markdown.text(
         markdown.markdown_decoration.quote("I am {echo} bot."),
