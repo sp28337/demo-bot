@@ -1,5 +1,6 @@
 import asyncio
 import io
+import csv
 import logging
 
 from aiogram.filters import CommandStart, Command
@@ -100,6 +101,31 @@ async def handle_command_text(message: types.Message):
         document=types.BufferedInputFile(
             file=file.getvalue().encode("utf-8"),
             filename="text.txt",
+        ),
+    )
+
+
+@dp.message(Command("csv"))
+async def handle_command_csv(message: types.Message):
+    await message.bot.send_chat_action(
+        chat_id=message.chat.id,
+        action=ChatAction.TYPING,
+    )
+
+    file = io.StringIO()
+    csv_writer = csv.writer(file)
+    csv_writer.writerows(
+        [
+            ["Name", "Age", "City"],
+            ["John Smith", "28", "New York"],
+            ["Jane Doe", "23", "Los Angeles"],
+            ["Pavel Tarakanov", "31", "Pattaya"],
+        ]
+    )
+    await message.reply_document(
+        document=types.BufferedInputFile(
+            file=file.getvalue().encode("utf-8"),
+            filename="people.csv",
         ),
     )
 
