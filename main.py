@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from sys import prefix
 
 from aiogram.filters import CommandStart, Command
 from aiogram import Bot, Dispatcher, types, F
@@ -61,6 +60,15 @@ async def handle_command_code(message: types.Message):
         sep="\n",
     )
     await message.answer(text=text, parse_mode=ParseMode.MARKDOWN_V2)
+
+
+@dp.message(Command("pic"))
+async def handle_command_pic(message: types.Message):
+    url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    await message.reply_photo(
+        photo=url,
+        caption="Thailand",
+    )
 
 
 #  Without magic-filter:
