@@ -4,7 +4,7 @@ import logging
 from aiogram.filters import CommandStart, Command
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.utils import markdown
-from aiogram.enums import ParseMode
+from aiogram.enums import ParseMode, ChatAction
 from aiogram.client.bot import DefaultBotProperties
 from magic_filter import RegexpMode
 
@@ -64,14 +64,24 @@ async def handle_command_code(message: types.Message):
 
 @dp.message(Command("pic"))
 async def handle_command_pic(message: types.Message):
-    # url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    await message.bot.send_chat_action(
+        chat_id=message.chat.id,
+        action=ChatAction.UPLOAD_PHOTO,
+    )
+    await message.reply_photo(
+        photo=url,
+        caption="mint & cucumber",
+    )
+
+
+@dp.message(Command("file"))
+async def handle_command_pic(message: types.Message):
     file_path = "/home/sp28337/projects/telegram/sp28337_bot/public/images/IMG_2063.jpg"
-    # await message.reply_photo(
-    #     photo=types.FSInputFile(
-    #         path=file_path,
-    #     ),
-    #     caption="mint & cucumber",
-    # )
+    await message.bot.send_chat_action(
+        chat_id=message.chat.id,
+        action=ChatAction.UPLOAD_DOCUMENT,
+    )
     await message.reply_document(
         document=types.FSInputFile(
             path=file_path,
