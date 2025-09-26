@@ -1,4 +1,5 @@
 import asyncio
+import io
 import logging
 
 from aiogram.filters import CommandStart, Command
@@ -76,7 +77,7 @@ async def handle_command_pic(message: types.Message):
 
 
 @dp.message(Command("file"))
-async def handle_command_pic(message: types.Message):
+async def handle_command_file(message: types.Message):
     file_path = "/home/sp28337/projects/telegram/sp28337_bot/public/images/IMG_2063.jpg"
     await message.bot.send_chat_action(
         chat_id=message.chat.id,
@@ -87,6 +88,19 @@ async def handle_command_pic(message: types.Message):
             path=file_path,
             filename="scrub.jpg",
         )
+    )
+
+
+@dp.message(Command("text"))
+async def handle_command_text(message: types.Message):
+    file = io.StringIO()
+    file.write("Hello Pattaya!\n")
+    file.write("I'm coming very soon!")
+    await message.reply_document(
+        document=types.BufferedInputFile(
+            file=file.getvalue().encode("utf-8"),
+            filename="text.txt",
+        ),
     )
 
 
