@@ -64,10 +64,13 @@ async def handle_command_code(message: types.Message):
 
 @dp.message(Command("pic"))
 async def handle_command_pic(message: types.Message):
-    url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    # url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    file_path = "/home/sp28337/projects/telegram/sp28337_bot/public/images/IMG_2063.jpg"
     await message.reply_photo(
-        photo=url,
-        caption="Thailand",
+        photo=types.FSInputFile(
+            path=file_path,
+        ),
+        caption="mint & cucumber",
     )
 
 
