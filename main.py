@@ -6,6 +6,8 @@ from aiogram import Bot, Dispatcher, types, F
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 from aiogram.client.bot import DefaultBotProperties
+from magic_filter import RegexpMode
+
 from settings import settings
 
 bot = Bot(
@@ -99,6 +101,11 @@ async def handle_any_media_with_caption(message: types.Message):
 @dp.message(F.from_user.id.in_({33, 339845222}), F.text == "secret")
 async def secret_admin_message(message: types.Message):
     await message.reply("Hi admin!")
+
+
+@dp.message(F.text.regexp(r"(\d+)", mode=RegexpMode.FINDALL).as_("code"))
+async def handle_code(message: types.Message, code: list[str]):
+    await message.reply(f"Your code: {code}")
 
 
 @dp.message()
