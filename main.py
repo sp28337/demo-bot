@@ -9,6 +9,7 @@ from aiogram import Bot, Dispatcher, types, F
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode, ChatAction
 from aiogram.client.bot import DefaultBotProperties
+from aiogram.utils.chat_action import ChatActionSender
 from magic_filter import RegexpMode
 
 from settings import settings
@@ -130,12 +131,8 @@ async def handle_command_csv(message: types.Message):
     )
 
 
-@dp.message(Command("pic_file"))
-async def send_pic_file_buffered(message: types.Message):
-    await message.bot.send_chat_action(
-        chat_id=message.chat.id,
-        action=ChatAction.UPLOAD_DOCUMENT,
-    )
+async def send_big_file(message: types.Message):
+    await asyncio.sleep(7)
     file = io.BytesIO()  # just bytes
     url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     async with aiohttp.ClientSession() as session:
@@ -150,6 +147,27 @@ async def send_pic_file_buffered(message: types.Message):
             filename="big-pic.jpg",
         )
     )
+
+
+@dp.message(Command("pic_file"))
+async def send_pic_file_buffered(message: types.Message):
+    await message.bot.send_chat_action(
+        chat_id=message.chat.id,
+        action=ChatAction.UPLOAD_DOCUMENT,
+    )
+    # action_sender = ChatActionSender(
+    #     bot=message.bot,
+    #     chat_id=message.chat.id,
+    #     action=ChatAction.UPLOAD_DOCUMENT,
+    # )
+    # async with action_sender:
+    #     await send_big_file(message)
+    #       or
+    async with ChatActionSender.upload_document(
+        bot=message.bot,
+        chat_id=message.chat.id,
+    ):
+        await send_big_file(message)
 
 
 #  Without magic-filter:
@@ -218,6 +236,12 @@ async def echo_message(message: types.Message):
         text="Wait a second...",
         parse_mode=None,
     )
+    if message.sticker:
+        await message.bot.send_chat_action(
+            chat_id=message.chat.id,
+            action=ChatAction.CHOOSE_STICKER,
+        )
+        await asyncio.sleep(2)
     # if message.text:
     #     await message.answer(
     #         text=message.text,
