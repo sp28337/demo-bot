@@ -3,6 +3,7 @@ import io
 import csv
 import logging
 
+import aiohttp
 from aiogram.filters import CommandStart, Command
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.utils import markdown
@@ -73,7 +74,6 @@ async def handle_command_pic(message: types.Message):
     )
     await message.reply_photo(
         photo=url,
-        caption="mint & cucumber",
     )
 
 
@@ -127,6 +127,28 @@ async def handle_command_csv(message: types.Message):
             file=file.getvalue().encode("utf-8"),
             filename="people.csv",
         ),
+    )
+
+
+@dp.message(Command("pic_file"))
+async def send_pic_file_buffered(message: types.Message):
+    await message.bot.send_chat_action(
+        chat_id=message.chat.id,
+        action=ChatAction.UPLOAD_DOCUMENT,
+    )
+    file = io.BytesIO()  # just bytes
+    url = "https://images.unsplash.com/photo-1519451241324-20b4ea2c4220?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            result_bytes = await response.read()
+
+    file.write(result_bytes)
+    await message.reply_document(
+        document=types.BufferedInputFile(
+            # file=result_bytes,
+            file=file.getvalue(),
+            filename="big-pic.jpg",
+        )
     )
 
 
