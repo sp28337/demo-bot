@@ -67,8 +67,10 @@ async def handle_info(message: types.Message):
         text="💬 Чат",
         url="https://t.me/SurenTalk",
     )
-    row = [tg_channel_btn, tg_chat_btn]
-    rows = [row]
+    # row = [tg_channel_btn, tg_chat_btn]
+    row_first = [tg_channel_btn]
+    row_second = [tg_chat_btn]
+    rows = [row_first, row_second]
     markup = InlineKeyboardMarkup(inline_keyboard=rows)
     await message.answer(
         text="Ссылки и прочие ресурсы:",
