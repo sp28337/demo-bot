@@ -1,10 +1,20 @@
 import asyncio
 
-from aiogram import Router, types
+from aiogram import Router, types, F
 from aiogram.enums import ChatAction
+from aiogram.types import ReplyKeyboardRemove
 
+from keyboards.common_keyboards import ButtonText
 
 router = Router(name=__name__)
+
+
+@router.message(F.text == ButtonText.BYE)
+async def handle_bye_message(message: types.Message):
+    await message.answer(
+        text="See you later! Click /start any time!",
+        reply_markup=ReplyKeyboardRemove(),
+    )
 
 
 @router.message()
