@@ -1,19 +1,11 @@
 from aiogram.filters import CommandStart, Command
-from aiogram import Router, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram import Router, types, F
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 
+from keyboards.common_keyboards import ButtonText, get_on_start_keyboard
+
 router = Router(name=__name__)
-
-
-def get_on_start_keyboard():
-    button_hello = KeyboardButton(text="Hello!")
-    button_help = KeyboardButton(text="What's next?")
-    buttons_first_row = [button_hello]
-    buttons_second_row = [button_help]
-    markup = ReplyKeyboardMarkup(keyboard=[buttons_first_row, buttons_second_row])
-    return markup
 
 
 @router.message(CommandStart())
@@ -26,6 +18,7 @@ async def handle_start(message: types.Message):
     )
 
 
+@router.message(F.text == ButtonText.WHATS_NEXT)
 @router.message(Command("help", prefix="/!%"))
 async def handle_help(message: types.Message):
     text = markdown.text(
