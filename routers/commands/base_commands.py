@@ -1,5 +1,6 @@
 from aiogram.filters import CommandStart, Command
 from aiogram import Router, types, F
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 
@@ -52,5 +53,16 @@ async def handle_more(message: types.Message):
     markup = get_actions_keyboard()
     await message.answer(
         text="Choose action:",
+        reply_markup=markup,
+    )
+
+
+@router.message()
+async def handle_info(message: types.Message):
+    row = []
+    rows = [row]
+    markup = InlineKeyboardMarkup(inline_keyboard=rows)
+    await message.answer(
+        text="Ссылки и прочие ресурсы:",
         reply_markup=markup,
     )
