@@ -10,8 +10,9 @@ router = Router(name=__name__)
 def get_on_start_keyboard():
     button_hello = KeyboardButton(text="Hello!")
     button_help = KeyboardButton(text="What's next?")
-    buttons_row = [button_hello, button_help]
-    markup = ReplyKeyboardMarkup(keyboard=[buttons_row])
+    buttons_first_row = [button_hello]
+    buttons_second_row = [button_help]
+    markup = ReplyKeyboardMarkup(keyboard=[buttons_first_row, buttons_second_row])
     return markup
 
 
