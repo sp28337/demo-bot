@@ -7,6 +7,7 @@ from keyboards.common_keyboards import (
     ButtonText,
     get_on_start_keyboard,
     get_on_help_keyboard,
+    get_actions_keyboard,
 )
 
 router = Router(name=__name__)
@@ -43,4 +44,13 @@ async def handle_help(message: types.Message):
         text=text,
         parse_mode=ParseMode.MARKDOWN_V2,
         reply_markup=get_on_help_keyboard(),
+    )
+
+
+@router.message(Command("more", prefix="/!%"))
+async def handle_more(message: types.Message):
+    markup = get_actions_keyboard()
+    await message.answer(
+        text="Choose action:",
+        reply_markup=markup,
     )
