@@ -63,7 +63,11 @@ async def handle_info(message: types.Message):
         text="🔋 Канал",
         url="https://t.me/Khorenyan",
     )
-    row = [tg_channel_btn]
+    tg_chat_btn = InlineKeyboardButton(
+        text="💬 Чат",
+        url="https://t.me/SurenTalk",
+    )
+    row = [tg_channel_btn, tg_chat_btn]
     rows = [row]
     markup = InlineKeyboardMarkup(inline_keyboard=rows)
     await message.answer(
