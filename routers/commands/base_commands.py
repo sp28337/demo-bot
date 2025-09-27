@@ -59,7 +59,11 @@ async def handle_more(message: types.Message):
 
 @router.message()
 async def handle_info(message: types.Message):
-    row = []
+    tg_channel_btn = InlineKeyboardButton(
+        text="🔋 Канал",
+        url="https://t.me/Khorenyan",
+    )
+    row = [tg_channel_btn]
     rows = [row]
     markup = InlineKeyboardMarkup(inline_keyboard=rows)
     await message.answer(
