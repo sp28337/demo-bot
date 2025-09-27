@@ -16,5 +16,6 @@ def get_on_start_keyboard():
     markup = ReplyKeyboardMarkup(
         keyboard=[buttons_first_row, buttons_second_row],
         resize_keyboard=True,
+        one_time_keyboard=True,
     )
     return markup
