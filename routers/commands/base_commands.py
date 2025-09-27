@@ -1,9 +1,17 @@
 from aiogram.filters import CommandStart, Command
 from aiogram import Router, types
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 
 router = Router(name=__name__)
+
+
+def get_on_start_keyboard():
+    button = KeyboardButton(text="Hello!")
+    buttons_row = [button]
+    markup = ReplyKeyboardMarkup(keyboard=[buttons_row])
+    return markup
 
 
 @router.message(CommandStart())
@@ -12,6 +20,7 @@ async def handle_start(message: types.Message):
     await message.answer(
         text=f"{markdown.hide_link(url=url)}Hello, {markdown.hbold(message.from_user.full_name)}!",
         parse_mode=ParseMode.HTML,
+        reply_markup=get_on_start_keyboard(),
     )
 
 
