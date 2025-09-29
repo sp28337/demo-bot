@@ -1,6 +1,5 @@
 from aiogram.filters import CommandStart, Command
 from aiogram import Router, types, F
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils import markdown
 from aiogram.enums import ParseMode
 
@@ -10,6 +9,7 @@ from keyboards.common_keyboards import (
     get_on_help_keyboard,
     get_actions_keyboard,
 )
+from keyboards.inline_keyboards.info_kb import build_info_keyboard
 
 router = Router(name=__name__)
 
@@ -57,34 +57,9 @@ async def handle_more(message: types.Message):
     )
 
 
-@router.message()
+@router.message(Command("info", prefix="/!%"))
 async def handle_info(message: types.Message):
-    tg_channel_btn = InlineKeyboardButton(
-        text="🔋 Канал",
-        url="https://t.me/Khorenyan",
-    )
-    tg_chat_btn = InlineKeyboardButton(
-        text="💬 Чат",
-        url="https://t.me/SurenTalk",
-    )
-    bot_source_btn = InlineKeyboardButton(
-        text="🤖 Исходный код",
-        url="https://github.com/sp28337/demo-bot",
-    )
-    row_tg = [
-        tg_channel_btn,
-        tg_chat_btn,
-    ]
-    row_second = [bot_source_btn]
-    # row_first = [tg_channel_btn]
-    # row_second = [tg_chat_btn]
-    rows = [
-        # row_first,
-        # row_second,
-        row_tg,
-        row_second,
-    ]
-    markup = InlineKeyboardMarkup(inline_keyboard=rows)
+    markup = build_info_keyboard()
     await message.answer(
         text="Ссылки и прочие ресурсы:",
         reply_markup=markup,
