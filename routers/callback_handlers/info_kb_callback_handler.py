@@ -21,4 +21,7 @@ async def handle_random_cite_cb(callback_query: CallbackQuery):
 
 @router.callback_query(F.data == random_num_dice_callback_data)
 async def handle_random_num_dice_cb(callback_query: CallbackQuery):
-    await callback_query.answer(text=f"Your random dice is {randint(1, 6)}")
+    await callback_query.answer(
+        text=f"Your random dice is {randint(1, 6)}",
+        cache_time=10,
+    )
