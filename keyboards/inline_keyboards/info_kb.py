@@ -3,6 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 random_cite_callback_data = "random_cite_callback_data"  # from 1 to 64 bytes
 random_num_dice_callback_data = "random_num_dice_callback_data"
+random_num_modal_callback_data = "random_num_modal_callback_data"
 
 
 def build_info_keyboard() -> InlineKeyboardMarkup:
@@ -26,6 +27,10 @@ def build_info_keyboard() -> InlineKeyboardMarkup:
         text="🎲 Случайное чсило",
         callback_data=random_num_dice_callback_data,
     )
+    btn_random_modal = InlineKeyboardButton(
+        text="🍆 Модальное окно",
+        callback_data=random_num_modal_callback_data,
+    )
     row_tg = [
         tg_channel_btn,
         tg_chat_btn,
@@ -37,7 +42,9 @@ def build_info_keyboard() -> InlineKeyboardMarkup:
         # row_second,
         row_tg,
         [bot_source_btn],
-        [btn_random_cite, btn_random_num],
+        [btn_random_cite],
+        [btn_random_num],
+        [btn_random_modal],
     ]
     markup = InlineKeyboardMarkup(inline_keyboard=rows)
     return markup
