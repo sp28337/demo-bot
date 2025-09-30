@@ -1,15 +1,16 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from .actions_kb import random_num_updated_callback_data
 
-random_cite_callback_data = "random_cite_callback_data"  # from 1 to 64 bytes
+
 random_num_dice_callback_data = "random_num_dice_callback_data"
 random_num_modal_callback_data = "random_num_modal_callback_data"
 
 
 def build_info_keyboard() -> InlineKeyboardMarkup:
     btn_random_cite = InlineKeyboardButton(
-        text="Случайный сайт",
-        callback_data=random_cite_callback_data,
+        text="Rundom number message",
+        callback_data=random_num_updated_callback_data,
     )
     tg_channel_btn = InlineKeyboardButton(
         text="🔋 Канал",
