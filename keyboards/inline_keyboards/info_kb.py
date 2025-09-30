@@ -2,11 +2,12 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 random_cite_callback_data = "random_cite_callback_data"  # from 1 to 64 bytes
+random_num_dice_callback_data = "random_num_dice_callback_data"
 
 
 def build_info_keyboard() -> InlineKeyboardMarkup:
     btn_random_cite = InlineKeyboardButton(
-        text="Random cite",
+        text="Случайный сайт",
         callback_data=random_cite_callback_data,
     )
     tg_channel_btn = InlineKeyboardButton(
@@ -21,6 +22,10 @@ def build_info_keyboard() -> InlineKeyboardMarkup:
         text="🤖 Исходный код",
         url="https://github.com/sp28337/demo-bot",
     )
+    btn_random_num = InlineKeyboardButton(
+        text="🎲 Случайное чсило",
+        callback_data=random_num_dice_callback_data,
+    )
     row_tg = [
         tg_channel_btn,
         tg_chat_btn,
@@ -32,7 +37,7 @@ def build_info_keyboard() -> InlineKeyboardMarkup:
         # row_second,
         row_tg,
         [bot_source_btn],
-        [btn_random_cite],
+        [btn_random_cite, btn_random_num],
     ]
     markup = InlineKeyboardMarkup(inline_keyboard=rows)
     return markup
