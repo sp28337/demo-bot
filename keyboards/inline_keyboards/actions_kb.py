@@ -5,10 +5,10 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 random_num_updated_callback_data = "random_num_updated_callback_data"
 
 
-def build_actions_keyboard() -> InlineKeyboardMarkup:
+def build_actions_keyboard(text="Rundom number") -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.button(
-        text="Rundom number",
+        text=text,
         callback_data=random_num_updated_callback_data,
     )
     return builder.as_markup()
