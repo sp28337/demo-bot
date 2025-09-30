@@ -9,6 +9,7 @@ from keyboards.common_keyboards import (
     get_on_help_keyboard,
     get_actions_keyboard,
 )
+from keyboards.inline_keyboards.info_kb import build_info_keyboard
 
 router = Router(name=__name__)
 
@@ -52,5 +53,14 @@ async def handle_more(message: types.Message):
     markup = get_actions_keyboard()
     await message.answer(
         text="Choose action:",
+        reply_markup=markup,
+    )
+
+
+@router.message(Command("info", prefix="/!%"))
+async def handle_info(message: types.Message):
+    markup = build_info_keyboard()
+    await message.answer(
+        text="Ссылки и прочие ресурсы:",
         reply_markup=markup,
     )
