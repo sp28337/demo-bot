@@ -21,6 +21,18 @@ async def handle_random_number_edited(callback_query: CallbackQuery):
     )
 
 
+@router.callback_query(
+    FixedRandomNumCallbackData.filter(F.number == 8),
+)
+async def handle_jackpot_callback(
+    callback_query: CallbackQuery,
+):
+    await callback_query.answer(
+        text="Jackpot! 🎰",
+        show_alert=True,
+    )
+
+
 @router.callback_query(FixedRandomNumCallbackData.filter())
 async def handle_fixed_random_number_callback(
     callback_query: CallbackQuery,

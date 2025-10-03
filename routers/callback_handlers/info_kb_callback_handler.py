@@ -4,14 +4,16 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 
 from keyboards.inline_keyboards.info_kb import (
-    random_num_dice_callback_data,
-    random_num_modal_callback_data,
+    RundomNumAction,
+    RundomNumCallbackData,
 )
 
 router = Router(name=__name__)
 
 
-@router.callback_query(F.data == random_num_dice_callback_data)
+@router.callback_query(
+    RundomNumCallbackData.filter(F.action == RundomNumAction.dice),
+)
 async def handle_random_num_dice_cb(callback_query: CallbackQuery):
     await callback_query.answer(
         text=f"Your random dice is {randint(1, 6)}",
@@ -19,7 +21,9 @@ async def handle_random_num_dice_cb(callback_query: CallbackQuery):
     )
 
 
-@router.callback_query(F.data == random_num_modal_callback_data)
+@router.callback_query(
+    RundomNumCallbackData.filter(F.action == RundomNumAction.modal),
+)
 async def handle_random_num_modal_cb(callback_query: CallbackQuery):
     await callback_query.answer(
         text=f"Your random num is {randint(1, 21)}",
