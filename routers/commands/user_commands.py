@@ -11,6 +11,7 @@ from aiogram.client.bot import DefaultBotProperties
 from aiogram.utils.chat_action import ChatActionSender
 
 from keyboards.inline_keyboards.actions_kb import build_actions_keyboard
+from keyboards.inline_keyboards.shop_kb import build_shop_keyboarb
 from settings import settings
 
 bot = Bot(
@@ -138,4 +139,12 @@ async def send_actions_message_with_kb(message: types.Message):
     await message.answer(
         text="Your actions:",
         reply_markup=build_actions_keyboard(),
+    )
+
+
+@router.message(Command("shop", prefix="!/%"))
+async def send_actions_message_with_kb(message: types.Message):
+    await message.answer(
+        text="Your shop actions:",
+        reply_markup=build_shop_keyboarb(),
     )
