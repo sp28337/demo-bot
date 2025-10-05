@@ -23,8 +23,10 @@ async def handle_survey_user_full_name(
     state: FSMContext,
 ):
     await state.update_data(full_name=message.text)
-    await state.clear()
-    await message.answer(f"Hello, {markdown.hbold(message.text)}")
+    await state.set_state(Survey.email)
+    await message.answer(
+        f"Hello, {markdown.hbold(message.text)}, now send me your email."
+    )
 
 
 @router.message(Survey.full_name)
@@ -34,3 +36,13 @@ async def handle_survey_user_full_name_invalid_content_type(
     await message.answer(
         f"Sorry, I don't understand, send your name as text.",
     )
+
+
+@router.message(Survey.email)
+async def handle_survey_user_email(
+    message: types.Message,
+    state: FSMContext,
+):
+    await state.update_data(email=message.text)
+    await state.set_state(Survey)
+    await message.answer(text="Cool! ...")
