@@ -1,11 +1,8 @@
-from pprint import pprint
-
 from aiogram import types
 
 
 def valid_email(text: str) -> bool:
     if "@" not in text or "." not in text:
-        pprint(text)
         raise ValueError("Invalid email")
     return text.lower()
 
