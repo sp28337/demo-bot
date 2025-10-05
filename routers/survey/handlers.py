@@ -3,6 +3,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.utils import markdown
 
+from validators.email_validators import valid_email_filter
 from .states import Survey
 
 router = Router(name=__name__)
@@ -38,11 +39,19 @@ async def handle_survey_user_full_name_invalid_content_type(
     )
 
 
-@router.message(Survey.email)
+@router.message(Survey.email, valid_email_filter)
 async def handle_survey_user_email(
     message: types.Message,
     state: FSMContext,
+    email: str,
 ):
-    await state.update_data(email=message.text)
-    await state.set_state(Survey)
-    await message.answer(text="Cool! ...")
+    await state.update_data(email=email)
+    # await state.set_state(Survey)
+    await message.answer(text=f"Cool! Your email is {markdown.hcode(email)}")
+
+
+@router.message(Survey.email)
+async def handle_survey_user_invalid_email(
+    message: types.Message,
+):
+    await message.answer(text="Your email is invalid, please try again!")
