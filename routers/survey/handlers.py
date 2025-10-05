@@ -22,6 +22,7 @@ async def handle_survey_user_full_name(
     message: types.Message,
     state: FSMContext,
 ):
+    await state.update_data(full_name=message.text)
     await state.clear()
     await message.answer(f"Hello, {markdown.hbold(message.text)}")
 
