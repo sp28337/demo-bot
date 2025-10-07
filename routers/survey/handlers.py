@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.utils import markdown
 
 from keyboards.common_keyboards import build_yes_or_no_keyboard
-from validators.email_validators import valid_email_filter
+from validators.email_validators import valid_email_filter, valid_email_message_text
 from .states import Survey
 
 router = Router(name=__name__)
@@ -43,7 +43,11 @@ async def handle_survey_user_full_name_invalid_content_type(
     )
 
 
-@router.message(Survey.email, valid_email_filter)
+@router.message(
+    Survey.email,
+    # valid_email_filter,
+    F.func(valid_email_message_text).as_("email"),
+)
 async def handle_survey_user_email(
     message: types.Message,
     state: FSMContext,
